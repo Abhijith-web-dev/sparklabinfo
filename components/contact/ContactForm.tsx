@@ -1,51 +1,40 @@
 'use client';
 
+import { useState, FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import { Send } from 'lucide-react';
-import { useState } from 'react';
 import styles from './ContactForm.module.css';
 
 const ContactForm = () => {
-    const [formData, setFormData] = useState({
-        name: '',
-        company: '',
-        email: '',
-        phone: '',
-        inquiry: '',
-        message: ''
-    });
-    const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-    const [feedback, setFeedback] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        setFormData({ ...formData, [e.target.id]: e.target.value });
-    };
-
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setStatus('loading');
-        setFeedback('');
+        setIsSubmitting(true);
+        setSubmitStatus('idle');
+
+        const form = e.currentTarget;
+        const formData = new FormData(form);
 
         try {
-            const res = await fetch('/api/contact', {
+            const response = await fetch('/', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams(formData as any).toString(),
             });
 
-            const data = await res.json();
-
-            if (res.ok) {
-                setStatus('success');
-                setFeedback('Message sent successfully! We will get back to you soon.');
-                setFormData({ name: '', company: '', email: '', phone: '', inquiry: '', message: '' });
+            if (response.ok) {
+                setSubmitStatus('success');
+                form.reset();
             } else {
-                setStatus('error');
-                setFeedback(data.error || 'Failed to send message. Please try again.');
+                setSubmitStatus('error');
             }
         } catch (error) {
-            setStatus('error');
-            setFeedback('Something went wrong. Please try again later.');
+            console.error('Form submission error:', error);
+            setSubmitStatus('error');
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -53,56 +42,107 @@ const ContactForm = () => {
         <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.6 }}
             className={styles.formContainer}
         >
-            <form className={styles.form} onSubmit={handleSubmit}>
+            <form
+                name="contact"
+                method="POST"
+                data-netlify="true"
+                netlify-honeypot="bot-field"
+                onSubmit={handleSubmit}
+            >
+                {/* Hidden input for Netlify Forms */}
+                <input type="hidden" name="form-name" value="contact" />
+
+                {/* Honeypot field for spam protection */}
+                <p style={{ display: 'none' }}>
+                    <label>
+                        Don't fill this out if you're human: <input name="bot-field" />
+                    </label>
+                </p>
+
                 <div className={styles.row}>
                     <div className={styles.group}>
-                        <label htmlFor="name">Name</label>
-                        <input type="text" id="name" placeholder="John Doe" value={formData.name} onChange={handleChange} required />
+                        <label htmlFor="name">Name *</label>
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="John Doe"
+                            required
+                        />
                     </div>
                     <div className={styles.group}>
                         <label htmlFor="company">Company</label>
-                        <input type="text" id="company" placeholder="Tech Corp" value={formData.company} onChange={handleChange} />
+                        <input
+                            type="text"
+                            id="company"
+                            name="company"
+                            placeholder="Your Company"
+                        />
                     </div>
                 </div>
 
                 <div className={styles.row}>
                     <div className={styles.group}>
-                        <label htmlFor="email">Email</label>
-                        <input type="email" id="email" placeholder="john@example.com" value={formData.email} onChange={handleChange} required />
+                        <label htmlFor="email">Email *</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="john@example.com"
+                            required
+                        />
                     </div>
                     <div className={styles.group}>
                         <label htmlFor="phone">Phone</label>
-                        <input type="tel" id="phone" placeholder="+91 93478 58649" value={formData.phone} onChange={handleChange} />
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            placeholder="+91 93478 58649"
+                        />
                     </div>
                 </div>
 
                 <div className={styles.group}>
                     <label htmlFor="inquiry">Inquiry Type</label>
-                    <select id="inquiry" value={formData.inquiry} onChange={handleChange}>
-                        <option value="">Select an option</option>
-                        <option value="web">Web Development</option>
-                        <option value="mobile">Mobile App</option>
-                        <option value="cloud">Cloud Solutions</option>
-                        <option value="other">Other</option>
+                    <select id="inquiry" name="inquiry">
+                        <option value="general">General Inquiry</option>
+                        <option value="web-development">Web Development</option>
+                        <option value="mobile-apps">Mobile Apps</option>
+                        <option value="cloud-solutions">Cloud Solutions</option>
+                        <option value="ui-ux-design">UI/UX Design</option>
                     </select>
                 </div>
 
                 <div className={styles.group}>
-                    <label htmlFor="message">Message</label>
-                    <textarea id="message" rows={5} placeholder="Tell us about your project..." value={formData.message} onChange={handleChange} required></textarea>
+                    <label htmlFor="message">Message *</label>
+                    <textarea
+                        id="message"
+                        name="message"
+                        rows={5}
+                        placeholder="Tell us about your project..."
+                        required
+                    />
                 </div>
 
-                {feedback && (
-                    <p className={status === 'success' ? styles.successMessage : styles.errorMessage}>
-                        {feedback}
-                    </p>
+                {submitStatus === 'success' && (
+                    <div className={styles.successMessage}>
+                        Thank you! Your message has been sent successfully.
+                    </div>
                 )}
 
-                <button type="submit" className={styles.submitBtn} disabled={status === 'loading'}>
-                    {status === 'loading' ? 'Sending...' : 'Send Message'} <Send size={18} />
+                {submitStatus === 'error' && (
+                    <div className={styles.errorMessage}>
+                        Failed to send message. Please try again.
+                    </div>
+                )}
+
+                <button type="submit" className={styles.submitBtn} disabled={isSubmitting}>
+                    {isSubmitting ? 'Sending...' : 'Send Message'}
+                    <Send size={20} />
                 </button>
             </form>
         </motion.div>
