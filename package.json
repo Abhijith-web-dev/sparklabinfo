@@ -17,9 +17,11 @@
     "next": "16.0.5",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "react-netlify-form": "^2.1.5",
     "sass": "^1.94.2"
   },
   "devDependencies": {
+    "@netlify/plugin-nextjs": "^4.41.3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
