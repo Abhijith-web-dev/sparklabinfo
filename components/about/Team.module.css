@@ -1,0 +1,173 @@
+.section {
+    padding: 8rem 0;
+    background: #050505;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(to right, #fff, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+.centerWrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    max-width: 400px;
+    width: 100%;
+    position: relative;
+}
+
+.card:hover {
+    border-color: var(--primary);
+    box-shadow: 0 10px 40px -10px rgba(37, 99, 235, 0.2);
+}
+
+.cardContent {
+    display: flex;
+    flex-direction: column;
+}
+
+.imageLink {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.nameLink {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+}
+
+.imageWrapper {
+    position: relative;
+    height: 400px;
+    overflow: hidden;
+}
+
+.image {
+    transition: transform 0.7s ease;
+}
+
+.card:hover .image {
+    transform: scale(1.05);
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover .overlay {
+    opacity: 1;
+}
+
+.viewProfile {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    color: white;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transform: translateY(20px);
+    transition: transform 0.4s ease;
+}
+
+.card:hover .viewProfile {
+    transform: translateY(0);
+}
+
+.info {
+    padding: 2rem;
+    text-align: center;
+    background: var(--card-bg);
+}
+
+.name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--foreground);
+    margin-bottom: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.nameLink:hover .name {
+    color: var(--primary);
+}
+
+.role {
+    color: var(--primary);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.bio {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.socials {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.socialIcon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+    border: 1px solid var(--card-border);
+}
+
+.socialIcon:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    transform: scale(1.1);
+}

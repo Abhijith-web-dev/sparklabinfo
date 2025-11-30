@@ -1,0 +1,211 @@
+.footer {
+    background: #020202;
+    border-top: 1px solid var(--card-border);
+    padding: 5rem 0 2rem;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: 4rem;
+    margin-bottom: 5rem;
+}
+
+.brand {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--foreground);
+}
+
+.logoImage {
+    object-fit: contain;
+}
+
+.tagline {
+    color: var(--text-muted);
+    line-height: 1.6;
+    max-width: 300px;
+}
+
+.linksColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.linksColumn h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--foreground);
+    margin-bottom: 0.5rem;
+}
+
+.linksColumn a {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+.linksColumn a:hover {
+    color: var(--primary);
+}
+
+.newsletter {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.newsletter h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.newsletter p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.inputGroup {
+    display: flex;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.5rem;
+    border-radius: 50px;
+    border: 1px solid var(--card-border);
+}
+
+.inputGroup input {
+    background: transparent;
+    border: none;
+    padding: 0.5rem 1rem;
+    color: var(--foreground);
+    flex: 1;
+    outline: none;
+}
+
+.inputGroup button {
+    background: var(--foreground);
+    color: var(--background);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.inputGroup button:hover {
+    transform: scale(1.05);
+}
+
+.inputGroup button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.message {
+    font-size: 0.85rem;
+    margin-top: -0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.message.success {
+    color: #10b981;
+}
+
+.message.error {
+    color: #ef4444;
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.socials {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.socials a {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+    border: 1px solid var(--card-border);
+}
+
+.socials a:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.bottom {
+    border-top: 1px solid var(--card-border);
+    padding-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.legal {
+    display: flex;
+    gap: 2rem;
+}
+
+@media (max-width: 1024px) {
+    .top {
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .top {
+        grid-template-columns: 1fr;
+    }
+
+    .bottom {
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+    }
+}
