@@ -12,28 +12,17 @@ interface TextRevealProps {
 }
 
 const TextReveal = ({ children, className }: TextRevealProps) => {
-    const textRef = useRef<HTMLHeadingElement>(null);
+    const containerRef = useRef<HTMLHeadingElement>(null);
+    const words = children.split(' ');
 
     useEffect(() => {
-        if (!textRef.current) return;
+        if (!containerRef.current) return;
 
-        const words = children.split(' ');
-        textRef.current.innerHTML = '';
-
-        words.forEach((word) => {
-            const span = document.createElement('span');
-            span.textContent = word + ' ';
-            span.style.display = 'inline-block';
-            span.style.opacity = '0';
-            span.style.transform = 'translateY(20px)';
-            textRef.current?.appendChild(span);
-        });
-
-        const spans = textRef.current.children;
+        const spans = containerRef.current.querySelectorAll('span');
 
         gsap.to(spans, {
             scrollTrigger: {
-                trigger: textRef.current,
+                trigger: containerRef.current,
                 start: 'top 80%',
                 end: 'bottom 20%',
                 toggleActions: 'play none none reverse',
@@ -51,8 +40,19 @@ const TextReveal = ({ children, className }: TextRevealProps) => {
     }, [children]);
 
     return (
-        <h1 ref={textRef} className={className} style={{ overflow: 'hidden' }}>
-            {children}
+        <h1 ref={containerRef} className={className} style={{ overflow: 'hidden', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.25em' }}>
+            {words.map((word, index) => (
+                <span
+                    key={index}
+                    style={{
+                        display: 'inline-block',
+                        opacity: 0,
+                        transform: 'translateY(20px)'
+                    }}
+                >
+                    {word}
+                </span>
+            ))}
         </h1>
     );
 };
