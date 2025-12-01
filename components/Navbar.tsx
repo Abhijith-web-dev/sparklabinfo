@@ -23,7 +23,14 @@ const Navbar = () => {
         <nav className={`${styles.navbar} ${scrolled ? styles.scrolled : ''}`}>
             <div className={styles.container}>
                 <Link href="/" className={styles.logo}>
-                    <Image src="/logo.png" alt="SparkLabInfo Logo" width={40} height={40} className={styles.logoImage} />
+                    <Image 
+                        src="/logo.png" 
+                        alt="SparkLabInfo Logo" 
+                        width={40} 
+                        height={40} 
+                        className={styles.logoImage} 
+                        unoptimized
+                    />
                     <span className={styles.logoText}>SparkLabInfo</span>
                 </Link>
 
