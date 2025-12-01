@@ -32,6 +32,7 @@ const Mission = () => {
                         style={{ objectFit: 'cover' }}
                         className={styles.image}
                         priority
+                        unoptimized
                     />
                     <div className={styles.overlay} />
                 </div>

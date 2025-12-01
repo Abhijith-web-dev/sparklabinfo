@@ -47,7 +47,14 @@ const Footer = () => {
                 <div className={styles.top}>
                     <div className={styles.brand}>
                         <Link href="/" className={styles.logo}>
-                            <Image src="/logo.png" alt="SparkLabInfo Logo" width={40} height={40} className={styles.logoImage} />
+                            <Image
+                                src="/logo.png"
+                                alt="SparkLabInfo Logo"
+                                width={40}
+                                height={40}
+                                className={styles.logoImage}
+                                unoptimized
+                            />
                             SparkLabInfo
                         </Link>
                         <p className={styles.tagline}>

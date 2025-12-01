@@ -68,6 +68,7 @@ const WhyChooseUs = () => {
                             fill
                             style={{ objectFit: 'cover' }}
                             className={styles.image}
+                            unoptimized
                         />
                         <div className={styles.overlay} />
                     </div>
