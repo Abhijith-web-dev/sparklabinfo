@@ -1,57 +1,142 @@
 .formContainer {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 24px;
-    padding: 3rem;
-    backdrop-filter: blur(10px);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 32px;
+    padding: 3.5rem;
+    backdrop-filter: blur(40px);
+    box-shadow:
+        0 4px 24px -1px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle inner glow */
+.formContainer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
 }
 
 .form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 2rem;
+    position: relative;
+    z-index: 1;
 }
 
 .row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
+    gap: 2rem;
 }
 
 .group {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.75rem;
+    position: relative;
 }
 
 .group label {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
-    font-weight: 500;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-left: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.group:focus-within label {
+    color: var(--primary);
 }
 
 .group input,
 .group select,
 .group textarea {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--card-border);
-    border-radius: 12px;
-    padding: 1rem;
+    background: rgba(10, 10, 10, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
     color: var(--foreground);
     font-family: inherit;
     font-size: 1rem;
     outline: none;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.group input::placeholder,
+.group textarea::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+    transition: opacity 0.3s ease;
+}
+
+.group input:focus::placeholder,
+.group textarea:focus::placeholder {
+    opacity: 0.5;
 }
 
 .group input:focus,
 .group select:focus,
 .group textarea:focus {
     border-color: var(--primary);
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(10, 10, 10, 0.8);
+    box-shadow:
+        0 0 0 4px rgba(var(--primary-rgb), 0.15),
+        inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
 }
 
-/* Fix for Chrome/Safari Autofill white background */
+.group input:hover,
+.group select:hover,
+.group textarea:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(15, 15, 15, 0.7);
+}
+
+/* Custom Select Wrapper */
+.selectWrapper {
+    position: relative;
+}
+
+.selectWrapper::after {
+    content: '';
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 6px;
+    background-color: var(--text-muted);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    pointer-events: none;
+    transition: background-color 0.3s ease;
+}
+
+.group:focus-within .selectWrapper::after {
+    background-color: var(--primary);
+}
+
+.group select {
+    appearance: none;
+    cursor: pointer;
+}
+
+.group select option {
+    background-color: #0a0a0a;
+    color: var(--foreground);
+    padding: 16px;
+}
+
+/* Autofill Fix */
 .group input:-webkit-autofill,
 .group input:-webkit-autofill:hover,
 .group input:-webkit-autofill:focus,
@@ -59,68 +144,91 @@
     -webkit-box-shadow: 0 0 0 30px #0a0a0a inset !important;
     -webkit-text-fill-color: white !important;
     transition: background-color 5000s ease-in-out 0s;
-}
-
-.group select option {
-    background-color: #0a0a0a;
-    color: var(--foreground);
-    padding: 10px;
+    caret-color: white;
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
 .submitBtn {
-    margin-top: 1rem;
-    background: var(--foreground);
-    color: var(--background);
-    padding: 1rem;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 1rem;
+    margin-top: 2rem;
+    background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+    color: #000000;
+    padding: 1.25rem;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 1.1rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    gap: 0.75rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     border: none;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
 }
 
 .submitBtn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.2);
+    background: #ffffff;
+}
+
+.submitBtn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
 }
 
 .submitBtn:disabled {
     opacity: 0.7;
     cursor: not-allowed;
-    transform: none;
+    background: #333;
+    color: #666;
+    box-shadow: none;
 }
 
 .successMessage {
-    color: #10b981;
-    font-size: 0.95rem;
-    text-align: center;
     background: rgba(16, 185, 129, 0.1);
-    padding: 0.75rem;
-    border-radius: 8px;
     border: 1px solid rgba(16, 185, 129, 0.2);
+    color: #34d399;
+    padding: 1rem;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
 .errorMessage {
-    color: #ef4444;
-    font-size: 0.95rem;
-    text-align: center;
     background: rgba(239, 68, 68, 0.1);
-    padding: 0.75rem;
-    border-radius: 8px;
     border: 1px solid rgba(239, 68, 68, 0.2);
+    color: #f87171;
+    padding: 1rem;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 500;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
     .formContainer {
-        padding: 1.5rem;
+        padding: 2rem;
+        border-radius: 24px;
     }
 
     .row {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .group input,
+    .group select,
+    .group textarea {
+        padding: 1rem 1.25rem;
+    }
+
+    .submitBtn {
+        margin-top: 1.5rem;
     }
 }

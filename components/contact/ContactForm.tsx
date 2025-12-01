@@ -38,11 +38,32 @@ const ContactForm = () => {
         }
     };
 
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1,
+                delayChildren: 0.2,
+            },
+        },
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] },
+        },
+    };
+
     return (
         <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={containerVariants}
             className={styles.formContainer}
         >
             <form
@@ -51,6 +72,7 @@ const ContactForm = () => {
                 data-netlify="true"
                 netlify-honeypot="bot-field"
                 onSubmit={handleSubmit}
+                className={styles.form}
             >
                 {/* Hidden input for Netlify Forms */}
                 <input type="hidden" name="form-name" value="contact" />
@@ -63,7 +85,7 @@ const ContactForm = () => {
                 </p>
 
                 <div className={styles.row}>
-                    <div className={styles.group}>
+                    <motion.div variants={itemVariants} className={styles.group}>
                         <label htmlFor="name">Name *</label>
                         <input
                             type="text"
@@ -72,8 +94,8 @@ const ContactForm = () => {
                             placeholder="John Doe"
                             required
                         />
-                    </div>
-                    <div className={styles.group}>
+                    </motion.div>
+                    <motion.div variants={itemVariants} className={styles.group}>
                         <label htmlFor="company">Company</label>
                         <input
                             type="text"
@@ -81,11 +103,11 @@ const ContactForm = () => {
                             name="company"
                             placeholder="Your Company"
                         />
-                    </div>
+                    </motion.div>
                 </div>
 
                 <div className={styles.row}>
-                    <div className={styles.group}>
+                    <motion.div variants={itemVariants} className={styles.group}>
                         <label htmlFor="email">Email *</label>
                         <input
                             type="email"
@@ -94,8 +116,8 @@ const ContactForm = () => {
                             placeholder="john@example.com"
                             required
                         />
-                    </div>
-                    <div className={styles.group}>
+                    </motion.div>
+                    <motion.div variants={itemVariants} className={styles.group}>
                         <label htmlFor="phone">Phone</label>
                         <input
                             type="tel"
@@ -103,21 +125,23 @@ const ContactForm = () => {
                             name="phone"
                             placeholder="+91 93478 58649"
                         />
-                    </div>
+                    </motion.div>
                 </div>
 
-                <div className={styles.group}>
+                <motion.div variants={itemVariants} className={styles.group}>
                     <label htmlFor="inquiry">Inquiry Type</label>
-                    <select id="inquiry" name="inquiry">
-                        <option value="general">General Inquiry</option>
-                        <option value="web-development">Web Development</option>
-                        <option value="mobile-apps">Mobile Apps</option>
-                        <option value="cloud-solutions">Cloud Solutions</option>
-                        <option value="ui-ux-design">UI/UX Design</option>
-                    </select>
-                </div>
+                    <div className={styles.selectWrapper}>
+                        <select id="inquiry" name="inquiry">
+                            <option value="general">General Inquiry</option>
+                            <option value="web-development">Web Development</option>
+                            <option value="mobile-apps">Mobile Apps</option>
+                            <option value="cloud-solutions">Cloud Solutions</option>
+                            <option value="ui-ux-design">UI/UX Design</option>
+                        </select>
+                    </div>
+                </motion.div>
 
-                <div className={styles.group}>
+                <motion.div variants={itemVariants} className={styles.group}>
                     <label htmlFor="message">Message *</label>
                     <textarea
                         id="message"
@@ -126,24 +150,44 @@ const ContactForm = () => {
                         placeholder="Tell us about your project..."
                         required
                     />
-                </div>
+                </motion.div>
 
                 {submitStatus === 'success' && (
-                    <div className={styles.successMessage}>
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        className={styles.successMessage}
+                    >
                         Thank you! Your message has been sent successfully.
-                    </div>
+                    </motion.div>
                 )}
 
                 {submitStatus === 'error' && (
-                    <div className={styles.errorMessage}>
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        className={styles.errorMessage}
+                    >
                         Failed to send message. Please try again.
-                    </div>
+                    </motion.div>
                 )}
 
-                <button type="submit" className={styles.submitBtn} disabled={isSubmitting}>
-                    {isSubmitting ? 'Sending...' : 'Send Message'}
-                    <Send size={20} />
-                </button>
+                <motion.button
+                    variants={itemVariants}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    type="submit"
+                    className={styles.submitBtn}
+                    disabled={isSubmitting}
+                >
+                    {isSubmitting ? (
+                        <span className={styles.loadingDots}>Sending...</span>
+                    ) : (
+                        <>
+                            Send Message <Send size={20} />
+                        </>
+                    )}
+                </motion.button>
             </form>
         </motion.div>
     );
