@@ -39,6 +39,7 @@ const Navbar = () => {
                     <Link href="/" className={styles.link}>Home</Link>
                     <Link href="/services" className={styles.link}>Services</Link>
                     <Link href="/portfolio" className={styles.link}>Case Studies</Link>
+                    <Link href="/pricing" className={styles.link}>Pricing</Link>
                     <Link href="/about" className={styles.link}>About Us</Link>
                     <Link href="/contact" className={styles.cta}>
                         Get a Quote <ChevronRight size={16} />
@@ -66,6 +67,7 @@ const Navbar = () => {
                             <Link href="/" onClick={() => setIsOpen(false)}>Home</Link>
                             <Link href="/services" onClick={() => setIsOpen(false)}>Services</Link>
                             <Link href="/portfolio" onClick={() => setIsOpen(false)}>Case Studies</Link>
+                            <Link href="/pricing" onClick={() => setIsOpen(false)}>Pricing</Link>
                             <Link href="/about" onClick={() => setIsOpen(false)}>About Us</Link>
                             <Link href="/contact" onClick={() => setIsOpen(false)} className={styles.mobileCta}>
                                 Get a Quote
